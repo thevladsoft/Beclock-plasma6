@@ -40,7 +40,16 @@ SimpleKCM {
     property string cfg_dateFormat: "shortDate"
     property alias cfg_customDateFormat: customDateFormat.text
     property alias cfg_use24hFormat: use24hFormat.currentIndex
-    property alias cfg_dateDisplayFormat: dateDisplayFormat.currentIndex
+    // property alias cfg_dateDisplayFormat: dateDisplayFormat.currentIndex
+    
+    /*Be....*/
+    // property alias cfg_datefontsize: datefontsize.value/*arreglar*/
+    // property alias cfg_dateproport: dateproport.checked/*arreglar*/
+    
+    property alias cfg_showTime: showTime.checked
+    // property alias cfg_timesize: timefontsize.value/*arreglar*/
+    // property alias cfg_timeproport: timeproport.checked/*arreglar*/
+    /*...Be*/
 
     Kirigami.FormLayout {
 
@@ -52,29 +61,60 @@ SimpleKCM {
                 text: i18n("Show date")
             }
 
-            QQC2.ComboBox {
-                id: dateDisplayFormat
-                enabled: showDate.checked
-                visible: Plasmoid.formFactor !== PlasmaCore.Types.Vertical
-                model: [
-                    i18n("Adaptive location"),
-                    i18n("Always beside time"),
-                    i18n("Always below time"),
-                ]
-                onActivated: cfg_dateDisplayFormat = currentIndex
-            }
+            // QQC2.ComboBox {
+            //     id: dateDisplayFormat
+            //     enabled: showDate.checked
+            //     visible: Plasmoid.formFactor !== PlasmaCore.Types.Vertical
+            //     model: [
+            //         i18n("Adaptive location"),
+            //         i18n("Always beside time"),
+            //         i18n("Always below time"),
+            //     ]
+            //     onActivated: cfg_dateDisplayFormat = currentIndex
+            // }
         }
+        
+        /*Be...*/
+        
+        QQC2.CheckBox {
+                    id: showTime
+                    text: i18n("Show time")
+        }
+        
+         ColumnLayout {
+                            anchors.left: parent.left
+                            visible: showTime.checked
+                            RowLayout {
+//                                     visible: showTime.checked
+                                    // QQC2.Label {//arreglar
+                                    //         text: i18n("Time font size:")
+                                    // }
+                                    // QQC2.CheckBox {//arreglar
+                                    //     id: timeproport
+                                    //     text: i18n("Proportional")
+                                    // }
+                //                     QQC2.SpinBox {/*arreglar*/
+                //                         id: timefontsize
+                //                         visible:! timeproport.checked
+                //                         suffix: i18n("pt")
+                //                         minimumValue: 2
+                // // 		                    maximumValue: 1000000
+                //                     }
+                            }
 
-        QQC2.ComboBox {
-            id: showSecondsComboBox
-            Kirigami.FormData.label: i18n("Show seconds:")
-            model: [
-                i18nc("@option:check", "Never"),
-                i18nc("@option:check", "Only in the tooltip"),
-                i18n("Always"),
-            ]
-            onActivated: cfg_showSeconds = currentIndex;
-        }
+         
+
+            QQC2.ComboBox {
+                id: showSecondsComboBox
+                Kirigami.FormData.label: i18n("Show seconds:")
+                model: [
+                    i18nc("@option:check", "Never"),
+                    i18nc("@option:check", "Only in the tooltip"),
+                    i18n("Always"),
+                ]
+                onActivated: cfg_showSeconds = currentIndex;
+            }
+         }    /*...Be*/
 
         Item {
             Kirigami.FormData.isSection: true
@@ -194,6 +234,26 @@ SimpleKCM {
                 text: dateFormat.model[dateFormat.currentIndex].formatter(new Date());
             }
         }
+        
+        /*Be...*/
+            RowLayout {
+                // visible:showDate.checked/*arreglar*/
+                // QQC2.Label {
+                //         text: i18n("Date font size:")
+                // }
+                // QQC2.CheckBox {/*arreglar*/
+                //     id: dateproport
+                //     text: i18n("Proportional")
+                // }
+//                 QQC2.SpinBox {/*arreglar*/
+//                     id: datefontsize
+//                     visible: !dateproport.checked
+//                     suffix: i18n("pt")
+//                     minimumValue: 2
+// // 		                    maximumValue: 1000000
+//                 }
+            }
+        /*...Be*/
 
         QQC2.TextField {
             id: customDateFormat

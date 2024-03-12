@@ -58,10 +58,10 @@ MouseArea {
     /*BE....*/
       Rectangle {
         id: fondo
-        width: timeLabel.width
-        height: width
-        x:0
-        y:x
+        width: rechour.width
+        height: rechour.height
+        x:rechour.x
+        y:rechour.y
         color: "gray"
         radius: width/2.
         opacity: plasmoid.configuration.shadowbackground?0.3:0.
@@ -129,9 +129,9 @@ MouseArea {
             height:dateLabel.height
             width:dateLabel.width
             x:dateLabel.x+width*0.05
-            y:dateLabel.y+height*0.05
-            anchors.horizontalCenter: main.horizontalCenter
-            anchors.top: labelsFlow.bottom
+            y:dateLabel.y+height*0.25
+            anchors.horizontalCenter: dateLabel.horizontalCenter
+            // anchors.top: labelsFlow.bottom
             font.family: dateLabel.font.family
             font.weight: dateLabel.font.weight
             font.italic: dateLabel.font.italic
@@ -140,8 +140,8 @@ MouseArea {
             opacity: 0.5
 //             color: "black"
             color: plasmoid.configuration.textshadow
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: dateLabel.AlignHCenter
+            verticalAlignment: dateLabel.AlignVCenter
             visible: plasmoid.configuration.textshadow == "transparent" ? 0 : 1
         }
     
@@ -151,7 +151,7 @@ MouseArea {
     property string horacolor2: plasmoid.configuration.horacolor2
     property string secondcolor1: plasmoid.configuration.secondcolor1
     property string secondcolor2: plasmoid.configuration.secondcolor2
-    property bool secondsring: plasmoid.configuration.showsecondsring
+    property bool secondsring: plasmoid.configuration.showsecondsring && plasmoid.configuration.showSeconds===2
     property bool destello_actived: plasmoid.configuration.destello
     property string imagenbackground: plasmoid.configuration.imagenbackground
     
@@ -259,20 +259,20 @@ MouseArea {
 
     // if showing the date and the time in one line or
     // if the date/timezone cannot be fit with the smallest font to its designated space
-    property bool oneLineMode: {
-        if (Plasmoid.configuration.dateDisplayFormat === 1) {
-            // BesideTime
-            return true;
-        } else if (Plasmoid.configuration.dateDisplayFormat === 2) {
-            // BelowTime
-            return false;
-        } else {
-            // Adaptive
-            return Plasmoid.formFactor === PlasmaCore.Types.Horizontal &&
-                main.height <= 2 * Kirigami.Theme.smallFont.pixelSize &&
-                (main.showDate || timezoneLabel.visible);
-        }
-    }
+    // property bool oneLineMode: {
+    //     if (Plasmoid.configuration.dateDisplayFormat === 1) {
+    //         // BesideTime
+    //         return true;
+    //     } else if (Plasmoid.configuration.dateDisplayFormat === 2) {
+    //         // BelowTime
+    //         return false;
+    //     } else {
+    //         // Adaptive
+    //         return Plasmoid.formFactor === PlasmaCore.Types.Horizontal &&
+    //             main.height <= 2 * Kirigami.Theme.smallFont.pixelSize &&
+    //             (main.showDate || timezoneLabel.visible);
+    //     }
+    // }
 
     property bool wasExpanded
     property int wheelDelta: 0
@@ -395,7 +395,7 @@ MouseArea {
                 target: dateLabel
 
                 anchors.top: labelsGrid.bottom
-                anchors.horizontalCenter: labelsGrid.horizontalCenter
+                anchors.horizontalCenter: main.horizontalCenter
             }
 
             PropertyChanges {
@@ -418,7 +418,7 @@ MouseArea {
         State {
             name: "oneLineDate"
             // the one-line mode has no effect on a vertical panel because it would never fit
-            when: Plasmoid.formFactor !== PlasmaCore.Types.Vertical && main.oneLineMode
+            /*when: Plasmoid.formFactor !== PlasmaCore.Types.Vertical && main.oneLineMode
 
             PropertyChanges {
                 target: main
@@ -488,12 +488,12 @@ MouseArea {
 
                 fontSizeMode: Text.VerticalFit
                 font.pixelSize: fontHelper.font.pixelSize
-            }
+            }*/
         },
 
         State {
             name: "verticalPanel"
-            when: Plasmoid.formFactor === PlasmaCore.Types.Vertical
+            /*when: Plasmoid.formFactor === PlasmaCore.Types.Vertical
 
             PropertyChanges {
                 target: main
@@ -557,7 +557,7 @@ MouseArea {
                 target: dateLabel
 
                 anchors.top: labelsGrid.bottom
-                anchors.horizontalCenter: labelsGrid.horizontalCenter
+                anchors.horizontalCenter: main.horizontalCenter
             }
 
             PropertyChanges {
@@ -567,7 +567,7 @@ MouseArea {
 
                 fontSizeMode: Text.HorizontalFit
                 font.pixelSize: fontHelper.font.pixelSize
-            }
+            }*/
         },
 
         State {
@@ -619,7 +619,7 @@ MouseArea {
 
                 height: 0.7 * timeLabel.height
                 font.pixelSize: 1024
-                width: Math.max(timeLabel.contentWidth, Kirigami.Units.gridUnit * 3)
+                width: main.width//Math.max(timeLabel.contentWidth, Kirigami.Units.gridUnit * 3)
                 verticalAlignment: Text.AlignVCenter
 
                 fontSizeMode: Text.Fit
@@ -631,7 +631,7 @@ MouseArea {
                 target: dateLabel
 
                 anchors.top: labelsGrid.bottom
-                anchors.horizontalCenter: labelsGrid.horizontalCenter
+                anchors.horizontalCenter: main.horizontalCenter
             }
 
             PropertyChanges {
@@ -712,7 +712,8 @@ MouseArea {
 
             Components.Label  {
                 id: timeLabel
-
+                /*Be*/visible: !plasmoid.configuration.showTime ? 0 : 1
+                color: plasmoid.configuration.textcolor
                 font {
                     family: fontHelper.font.family
                     weight: fontHelper.font.weight
@@ -727,10 +728,13 @@ MouseArea {
 
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
+                
+                
             }
 
             Components.Label {
                 id: timezoneLabel
+                color: plasmoid.configuration.textcolor
 
                 font.weight: timeLabel.font.weight
                 font.italic: timeLabel.font.italic
@@ -747,6 +751,7 @@ MouseArea {
 
         Components.Label {
             id: dateLabel
+            color: plasmoid.configuration.textcolor
 
             visible: main.showDate
 
