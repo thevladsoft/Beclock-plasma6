@@ -21,6 +21,16 @@ ConfigModel {
          source: "configAppearance.qml"
     }
     ConfigCategory {
+         name: i18n("BeClock")
+         icon: "clock"
+         source: "configBe.qml"
+    }
+    ConfigCategory {
+         name: i18n("BeClock Adv.")
+         icon: "clock"
+         source: "configBe2.qml"
+    }
+    ConfigCategory {
         name: i18n("Calendar")
         icon: "office-calendar"
         source: "configCalendar.qml"

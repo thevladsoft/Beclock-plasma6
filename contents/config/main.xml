@@ -189,7 +189,7 @@
     </entry>
     <entry name="shadowbackground" type="Bool">
       <label> </label>
-      <default>true</default>
+      <default>false</default>
     </entry>
     <entry name="imagenbackground" type="String">
       <label>Imagen del fondo.</label>
@@ -197,6 +197,26 @@
     </entry>
     <entry name="blurbackground" type="Bool">
       <label> </label>
+      <default>true</default>
+    </entry>
+    <entry name="datefontsize" type="UInt">
+      <label>Date font size</label>
+      <default>12</default>
+    </entry>
+	<entry name="dateproport" type="Bool">
+      <label> </label>
+      <default>false</default>
+    </entry>
+	<entry name="timesize" type="UInt">
+      <label>TIME font size</label>
+      <default>12</default>
+    </entry>
+	<entry name="timeproport" type="Bool">
+      <label> </label>
+      <default>true</default>
+    </entry>
+    <entry name="showTime" type="Bool">
+      <label>Whether the time should be shown.</label>
       <default>true</default>
     </entry>
 <!-- ...Be-->
@@ -212,7 +232,7 @@
         <choice name="BesideTime" />
         <choice name="BelowTime" />
       </choices>
-      <default>0</default>
+      <default>2</default>
     </entry>
   </group>
 </kcfg>
