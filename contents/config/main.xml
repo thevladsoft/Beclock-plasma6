@@ -83,6 +83,18 @@
       </choices>
       <default>0</default>
     </entry>
+    
+<!--     BE... -->
+    <entry name="textcolor" type="String">
+      <label>Color text.</label>
+      <default>white</default>
+    </entry>
+    <entry name="textshadow" type="String">
+      <label>Color shadow.</label>
+      <default>black</default>
+    </entry>
+<!--     ....BE -->
+    
     <entry name="showWeekNumbers" type="Bool">
       <label>Whether the calendar should show week numbers.</label>
       <default>false</default>
@@ -99,6 +111,96 @@
       <label>A list of plugins where additional calendar event data can be sourced.</label>
       <default></default>
     </entry>
+    
+<!--     BE.... -->
+    <entry name="mincolor1" type="String">
+      <label>Color del minutero.</label>
+      <default>#f15602</default>
+    </entry>
+    <entry name="mincolor2" type="String">
+      <label>Color secundario del minutero.</label>
+      <default>black</default>
+    </entry>
+    <entry name="horacolor1" type="String">
+      <label>Color de la hora.</label>
+      <default>black</default>
+    </entry>
+    <entry name="horacolor2" type="String">
+      <label>Color secundario de la hora.</label>
+      <default>white</default>
+    </entry>
+    
+    <entry name="showsecondsring" type="Bool">
+      <label>Whether seconds ring should be shown in the clock.</label>
+      <default>false</default>
+    </entry>
+    <entry name="secondcolor1" type="String">
+      <label>Color de los segundos.</label>
+      <default>black</default>
+    </entry>
+    <entry name="secondcolor2" type="String">
+      <label>Color secundario de los segundos.</label>
+      <default>white</default>
+    </entry>
+	
+	<entry name="minsize" type="UInt">
+      <label>Width of mins.</label>
+      <default>10</default>
+    </entry>
+	<entry name="hoursize" type="UInt">
+      <label>Width of hours.</label>
+      <default>10</default>
+    </entry>
+	<entry name="secsize" type="UInt">
+      <label>Width of secs.</label>
+      <default>10</default>
+    </entry>
+	
+	<entry name="mingrad" type="Bool">
+      <label>Gradient of mins.</label>
+      <default>false</default>
+    </entry>
+	<entry name="hourgrad" type="Bool">
+      <label>Gradient of hours.</label>
+      <default>false</default>
+    </entry>
+	<entry name="secgrad" type="Bool">
+      <label>Gradient of secs.</label>
+      <default>false</default>
+    </entry>
+	
+	
+	<entry name="minradius" type="UInt">
+      <label>Radius of mins.</label>
+      <default>85</default>
+    </entry>
+	<entry name="hourradius" type="UInt">
+      <label>Radius of hours.</label>
+      <default>70</default>
+    </entry>
+	<entry name="secradius" type="UInt">
+      <label>Radius of secs.</label>
+      <default>100</default>
+    </entry>
+    
+    <entry name="destello" type="Bool">
+      <label>Ver un destello </label>
+      <default>true</default>
+    </entry>
+    <entry name="shadowbackground" type="Bool">
+      <label> </label>
+      <default>true</default>
+    </entry>
+    <entry name="imagenbackground" type="String">
+      <label>Imagen del fondo.</label>
+      <default></default>
+    </entry>
+    <entry name="blurbackground" type="Bool">
+      <label> </label>
+      <default>true</default>
+    </entry>
+<!-- ...Be-->
+    
     <entry name="pin" type="Bool">
       <label>Whether the popup should remain open when another window is activated</label>
       <default>false</default>

@@ -15,6 +15,7 @@ import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.components 3.0 as Components
 import org.kde.plasma.private.digitalclock 1.0
 import org.kde.kirigami 2.20 as Kirigami
+// /*Be*/import QtGraphicalEffects 1.15
 
 MouseArea {
     id: main
@@ -53,6 +54,202 @@ MouseArea {
     property string lastSelectedTimezone: Plasmoid.configuration.lastSelectedTimezone
     property int displayTimezoneFormat: Plasmoid.configuration.displayTimezoneFormat
     property int use24hFormat: Plasmoid.configuration.use24hFormat
+
+    /*BE....*/
+      Rectangle {
+        id: fondo
+        width: timeLabel.width
+        height: width
+        x:0
+        y:x
+        color: "gray"
+        radius: width/2.
+        opacity: plasmoid.configuration.shadowbackground?0.3:0.
+     }    
+     Image {
+        id: fondoimage
+        width: fondo.width
+        height: fondo.height
+        x:fondo.x
+        y:fondo.y
+        //opacity: 0.6
+        fillMode: Image.PreserveAspectFit
+        source: imagenbackground
+        visible: false
+     }
+//      OpacityMask {
+//          id: fondoimageopac
+//          anchors.fill: fondoimage
+//          source: fondoimage
+// //          opacity: 0.4
+//          visible: false
+//          maskSource: Rectangle {
+//              width: fondoimage.width
+//              height: fondoimage.height
+//              radius: width/2.
+//              //visible: false
+//          }
+//      }
+    //  FastBlur { 
+    //      id: fondoimageblur
+    //     anchors.fill: fondoimageopac 
+    //     source: fondoimageopac 
+    //     opacity: 0.4
+    //     radius: plasmoid.configuration.blurbackground?25:0
+    // }
+     
+       Components.Label  {
+            id: timeLabelshadow
+            text:timeLabel.text
+            
+            height:timeLabel.height
+            width:timeLabel.width
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            x:timeLabel.x+width*0.05
+            y:timeLabel.y+height*0.05
+            font.family: timeLabel.font.family
+            font.weight: timeLabel.font.weight
+            font.italic: timeLabel.font.italic
+            fontSizeMode: timeLabel.fontSizeMode
+            font.pointSize: timeLabel.font.pointSize
+            opacity: 0.5
+//             color: "black"
+            color: plasmoid.configuration.textshadow
+            visible: plasmoid.configuration.textshadow == "transparent" || !plasmoid.configuration.showTime ? 0 : 1
+//             fontSize: timeLabel.fontSize
+//             font.size: timeLabel.font.size
+//             font.color:"black"
+        }
+        
+       Components.Label  {
+            id: dateLabelshadow
+            text:dateLabel.text
+            
+            height:dateLabel.height
+            width:dateLabel.width
+            x:dateLabel.x+width*0.05
+            y:dateLabel.y+height*0.05
+            anchors.horizontalCenter: main.horizontalCenter
+            anchors.top: labelsFlow.bottom
+            font.family: dateLabel.font.family
+            font.weight: dateLabel.font.weight
+            font.italic: dateLabel.font.italic
+            fontSizeMode: dateLabel.fontSizeMode
+            font.pointSize: dateLabel.font.pointSize
+            opacity: 0.5
+//             color: "black"
+            color: plasmoid.configuration.textshadow
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            visible: plasmoid.configuration.textshadow == "transparent" ? 0 : 1
+        }
+    
+    property string mincolor1: plasmoid.configuration.mincolor1
+    property string mincolor2: plasmoid.configuration.mincolor2
+    property string horacolor1: plasmoid.configuration.horacolor1
+    property string horacolor2: plasmoid.configuration.horacolor2
+    property string secondcolor1: plasmoid.configuration.secondcolor1
+    property string secondcolor2: plasmoid.configuration.secondcolor2
+    property bool secondsring: plasmoid.configuration.showsecondsring
+    property bool destello_actived: plasmoid.configuration.destello
+    property string imagenbackground: plasmoid.configuration.imagenbackground
+    
+    ProgressCircle {
+        id: recsec
+        y:timeLabel.width/2.-size/2.
+        x:y
+        colorGrad: plasmoid.configuration.secgrad
+        size: (plasmoid.configuration.secradius/100.)*parent.width//timeLabel.width * 1.15
+        lineWidth: (plasmoid.configuration.secsize/100.)*0.5*parent.width
+        colorCircle: secondcolor1
+        colorBackground: "transparent"
+        showBackground: true
+        arcBegin: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "s")==0 ? 360 :  0
+        arcEnd: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "s")==0 ? 360 :  Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "s")*6
+        opacity: 0.7
+        visible: secondsring
+        animationDuration: 500//Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "s") > 0 ? 500 : 0
+     }
+     ProgressCircle {
+        id: recsec2
+        y:timeLabel.width/2.-size/2.
+        x:y
+        colorGrad: plasmoid.configuration.secgrad
+        size: recsec.size//timeLabel.width * 1.15
+        lineWidth: 0.25*recsec.lineWidth
+        colorCircle: secondcolor2
+        colorBackground: "transparent"
+        showBackground: true
+        arcBegin: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "s")==0 ? 360 :  0.5
+        arcEnd: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "s")==0 ? 360 :  Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "s")*6 + 0.5
+        opacity: 0.7
+        visible: secondsring
+        animationDuration: 500//Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "s") > 0 ? 500 : 0
+     }
+     
+     ProgressCircle {
+        id: recmin
+        y:timeLabel.width/2.-size/2.
+        x:y
+        colorGrad: plasmoid.configuration.mingrad
+        size: (plasmoid.configuration.minradius/100.)*parent.width//timeLabel.width
+        lineWidth: (plasmoid.configuration.minsize/100.)*0.5*parent.width
+        colorCircle: mincolor1
+        colorBackground: "transparent"
+        showBackground: true
+        arcBegin: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "m")==0 ? 360 :  0
+        arcEnd: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "m")==0 ? 360 :  Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "m")*6 + 0
+        opacity: 0.7
+        animationDuration: 1000//Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "m") > 0 ? 1000 : 0
+     }
+     ProgressCircle {
+        id: recmin2
+        y:timeLabel.width/2.-size/2.
+        x:y
+        colorGrad: plasmoid.configuration.mingrad
+        size: recmin.size//timeLabel.width
+        lineWidth: 0.25*recmin.lineWidth
+        colorCircle: mincolor2
+        colorBackground: "transparent"
+        showBackground: true
+        arcBegin: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "m")==0 ? 360 :  0.5
+        arcEnd: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "m")==0 ? 360 :  Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "m")*6 + 0.5
+        opacity: 0.7
+        animationDuration: 1000//Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "m") > 0 ? 1000 : 0
+     }
+    
+     ProgressCircle {
+         id: rechour
+         size: (plasmoid.configuration.hourradius/100.)*parent.width//timeLabel.width*0.85
+         y: timeLabel.width/2.-size/2.
+         x:y
+         colorGrad: plasmoid.configuration.hourgrad
+         lineWidth: (plasmoid.configuration.hoursize/100.)*0.5*parent.width
+         colorCircle: horacolor1
+         colorBackground: "transparent"
+         showBackground: true
+         arcBegin: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "h")%12==0  ? 360 :  0.5
+         arcEnd: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "h")%12==0 ? 360 :  Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "h")%12*30 + 0
+         opacity: 0.7
+         animationDuration: 1000
+     }
+     ProgressCircle {
+        id: rechour2
+        size: rechour.size//timeLabel.width*0.85
+        y: timeLabel.width/2.-size/2.
+        x:y
+        colorGrad: plasmoid.configuration.hourgrad
+        lineWidth: 0.25*rechour.lineWidth
+        colorCircle: horacolor2
+        colorBackground: "transparent"
+        showBackground: true
+        arcBegin: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "h")%12==0 ? 360 :  0.5
+        arcEnd: Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "h")%12==0 ? 360 :  Qt.formatDateTime(dataSource.data["Local"]["DateTime"], "h")%12*30 + 0.5
+        opacity: 0.7
+        animationDuration: 1000
+     }
+     /*....BE*/
 
     property string lastDate: ""
     property int tzOffset
